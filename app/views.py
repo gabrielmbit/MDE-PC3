@@ -13,16 +13,14 @@ def post_image():
 	if not request.is_json:
 		return {"description": "Body must be a json"}, 400
 
-	min_confidence_str = request.args.get("min_confidence", "80")
-	try:
-		min_confidence = float(min_confidence_str)
-	except ValueError:
-		return {"description": "Invalid min_confidence"}, 400
+	min_confidence = float(request.args.get("min_confidence", "80"))
 
 	try:
 		body = controller.post_image(request.json, min_confidence)
 	except ValueError as e:
 		return {"description": str(e)}, 400
+	except RuntimeError as e:
+		return {"description": str(e)}, 502
 
 	return body
 

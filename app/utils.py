@@ -2,6 +2,7 @@ import base64
 import os
 from datetime import datetime
 
+BASE64_REGEX = re.compile(r'^data:image\/[a-zA-Z]+;base64,')
 
 def now_str() -> str:
 	return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -23,9 +24,9 @@ def file_size_kb(path: str) -> int:
 	return int(os.path.getsize(path) / 1024)
 
 
-def b64_to_bytes(b64_str: str) -> bytes:
+def b64encode(b64_str: str) -> bytes:
 	try:
-		return base64.b64decode(b64_str)
+		return base64.b64encode(b64_str)
 	except Exception as e:
 		raise ValueError("Invalid base64 in 'data'") from e
 

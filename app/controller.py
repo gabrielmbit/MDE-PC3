@@ -1,10 +1,9 @@
+import base64
 from uuid import uuid4
-
 from .db import repository
 from .services.imagekit import get_imagekit
 from .services.imagga import get_imagga_tags
 from .utils import (
-	b64_to_bytes,
 	ensure_images_dir,
 	file_size_kb,
 	file_to_b64,
@@ -21,17 +20,17 @@ def post_image(body: dict, min_confidence: float = 80) -> dict:
 	if "data" not in body:
 		raise ValueError("Missing 'data' field")
 
-	picture_id = str(uuid4())
 	img_b64 = body["data"]
 
 	date = now_str()
-	img_bytes = b64_to_bytes(img_b64)
+	picture_id = str(uuid4())
 
 	ik = get_imagekit()
 	upload_info = None
 	tags: list[dict] = []
 	try:
-		upload_info = ik.upload(file=img_b64, file_name=f"{picture_id}.jpg")
+		base64.b64decode(img_b64, validate=True)
+		upload_info = ik.upload(file=img_b64, file_name=f"{picture_id}.jpeg")
 		tags = get_imagga_tags(upload_info.url, min_confidence=min_confidence)
 	finally:
 		if upload_info is not None:
@@ -43,7 +42,7 @@ def post_image(body: dict, min_confidence: float = 80) -> dict:
 	ensure_images_dir()
 	path = picture_path(picture_id)
 	with open(path, "wb") as f:
-		f.write(img_bytes)
+		f.write(img_b64)
 
 	repository.insert_picture(picture_id=picture_id, path=path, date=date)
 	repository.insert_tags(picture_id=picture_id, date=date, tags=tags)

@@ -4,10 +4,10 @@ services:
     container_name: pictures-db
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: pictures
+      MYSQL_DATABASE: Pictures
       MYSQL_USER: mbit
       MYSQL_PASSWORD: mbit
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: mbit
     ports:
       - "3306:3306"
     volumes:
@@ -21,7 +21,7 @@ services:
     depends_on:
       - db
     environment:
-      MYSQL_DATABASE: pictures
+      MYSQL_DATABASE: Pictures
       MYSQL_USER: mbit
       MYSQL_PASSWORD: mbit
       MYSQL_HOST: db
