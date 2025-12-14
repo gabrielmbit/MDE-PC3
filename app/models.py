@@ -3,6 +3,6 @@ from dataclasses import dataclass
 
 @dataclass
 class Picture:
-   id: str
-   path: str
-   date: str
+	id: str
+	path: str
+	date: str
