@@ -14,3 +14,21 @@ services:
       - ./.docker/mysql:/var/lib/mysql
       - ./db:/docker-entrypoint-initdb.d:ro
 
+  api:
+    build: .
+    container_name: pictures-api
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      MYSQL_DATABASE: pictures
+      MYSQL_USER: mbit
+      MYSQL_PASSWORD: mbit
+      MYSQL_HOST: db
+      MYSQL_PORT: 3306
+      IMAGES_DIR: /opt/app/images
+    ports:
+      - "8080:80"
+    volumes:
+      - ./.docker/images:/opt/app/images
+
