@@ -2,3 +2,4 @@ credentials.json
 .env
 .docker/
 __pycache__/
+.venv
