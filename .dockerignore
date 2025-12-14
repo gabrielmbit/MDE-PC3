@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+.docker/
+credentials.json
+.env
+.DS_Store
+.ipynb_checkpoints/
+
+
