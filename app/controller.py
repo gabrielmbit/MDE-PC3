@@ -1,8 +1,8 @@
 from uuid import uuid4
 
-from . import repository
-from .imagekit import get_imagekit
-from .imagga import get_imagga_tags
+from .db import repository
+from .services.imagekit import get_imagekit
+from .services.imagga import get_imagga_tags
 from .utils import (
 	b64_to_bytes,
 	ensure_images_dir,

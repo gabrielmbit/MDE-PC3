@@ -3,6 +3,7 @@ import os
 
 import requests
 
+
 def get_imagga_tags(image_url: str, min_confidence: float) -> list[dict]:
 	credentials_path = os.getenv("CREDENTIALS_PATH", "/opt/app/credentials.json")
 	with open(credentials_path, "r", encoding="utf-8") as f:

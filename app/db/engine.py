@@ -7,7 +7,6 @@ _engine: Optional[Engine] = None
 
 
 def get_engine() -> Engine:
-
 	global _engine
 	if _engine is not None:
 		return _engine

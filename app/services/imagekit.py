@@ -6,6 +6,7 @@ from imagekitio import ImageKit
 
 _client: Optional[ImageKit] = None
 
+
 def get_imagekit() -> ImageKit:
 	global _client
 	if _client is not None:
@@ -16,12 +17,9 @@ def get_imagekit() -> ImageKit:
 		creds = json.load(f)
 
 	ik = creds["imagekit"]
-	try:
-		url_endpoint = ik["endpoint"]
-		public_key = ik["api_key"]
-		private_key = ik["secret_key"]
-	except KeyError as e:
-		raise RuntimeError("credentials.json must contain: imagekit.endpoint, imagekit.api_key, imagekit.secret_key") from e
+	url_endpoint = ik["endpoint"]
+	public_key = ik["api_key"]
+	private_key = ik["secret_key"]
 
 	_client = ImageKit(
 		public_key=public_key,
