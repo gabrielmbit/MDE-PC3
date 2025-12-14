@@ -13,8 +13,14 @@ def post_image():
 	if not request.is_json:
 		return {"description": "Body must be a json"}, 400
 
+	min_confidence_str = request.args.get("min_confidence", "80")
 	try:
-		body = controller.post_image(request.json)
+		min_confidence = float(min_confidence_str)
+	except ValueError:
+		return {"description": "Invalid min_confidence"}, 400
+
+	try:
+		body = controller.post_image(request.json, min_confidence)
 	except ValueError as e:
 		return {"description": str(e)}, 400
 
@@ -25,8 +31,12 @@ def post_image():
 def get_images():
 	min_date = request.args.get("min_date")
 	max_date = request.args.get("max_date")
+	tags_str = request.args.get("tags")
+	tags = None
+	if tags_str is not None:
+		tags = [t.strip() for t in tags_str.split(",") if t.strip() != ""]
 
-	body = controller.get_images(min_date=min_date, max_date=max_date)
+	body = controller.get_images(min_date=min_date, max_date=max_date, tags=tags)
 	return body
 
 
