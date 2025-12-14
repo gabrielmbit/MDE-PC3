@@ -31,4 +31,4 @@ services:
       - "8080:80"
     volumes:
       - ./.docker/images:/opt/app/images
-
+      - ./credentials.json:/opt/app/credentials.json:ro
